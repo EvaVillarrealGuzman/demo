@@ -2,11 +2,16 @@ version: '3'
 
 services:
     php:
-        image: yiisoftware/yii-php:8.0-apache
+        build:
+          context: .
+          dockerfile: Dockerfile
         working_dir: /app
         volumes:
             - ./:/app
             # host-volume for composer cache
             - ~/.composer-docker/cache:/root/.composer/cache:delegated
+            - ./ssl:/var/imported/ssl
+            - ./sites-available:/etc/apache2/sites-available
         ports:
-            - '30080:80'
+            - '80:80'
+            - '443:443'
